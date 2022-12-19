@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daft Punk top 10 tracks</title>
+</head>
+<body>
+
+  <div>
+    {% for id in ids %}
+    <a target="_blank" href="https://open.spotify.com/track/{{ id }}">Daftpunk Song</a>
+    {% endfor %}
+  </div>
+  
+  <div style="width: 500px;" id="music"></div>
+
+  <script>
+    const music = document.getElementById("music");
+
+    function changeSong(url) {
+        fetch(`https://open.spotify.com/oembed?url=${url}`)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            music.innerHTML = data.html;
+          });
+      }
+
+    changeSong('https://open.spotify.com/playlist/37i9dQZF1DX9uKNf5jGX6m')
+  </script>
+</body>
+</html>
