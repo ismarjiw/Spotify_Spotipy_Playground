@@ -1,6 +1,7 @@
 import os
 from flask import Flask, session, request, redirect, url_for, render_template
 from flask_session import Session
+## https://flask-session.readthedocs.io/en/latest/
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth 
 
@@ -22,7 +23,7 @@ def index():
         auth_url = auth_manager.get_authorize_url()
         return f'<h2><a href="{auth_url}">Sign in</a></h2>'
 
-    # Step 3. Signed in with token, display data
+    # Step 3. Signed in with token => display data
     if auth_manager.validate_token(cache_handler.get_cached_token()):
         spotify = spotipy.Spotify(auth_manager=auth_manager)
         
@@ -47,7 +48,7 @@ def redirectPage():
     if token_info:
         session[TOKEN_INFO] = token_info
     else:
-        token_info = sp_oauth.refresh_access_token(code)
+        token_info = auth_manager.refresh_access_token(code) 
         session[TOKEN_INFO] = token_info 
 
     return redirect('/')
